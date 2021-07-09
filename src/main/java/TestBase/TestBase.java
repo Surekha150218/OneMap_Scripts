@@ -7,10 +7,10 @@ import java.util.Properties;
 
 public class TestBase {
 
-	Properties properties;
+	static Properties properties;
 	
 		
-public void loadData() throws IOException{
+public static void loadData() throws IOException{
 	
 	
 	properties = new Properties();
@@ -21,7 +21,7 @@ public void loadData() throws IOException{
 	
 	}
 
-public String getObject(String Data) throws IOException {
+public static String getObject(String Data) throws IOException {
 	
 	loadData();
 	String data =properties.getProperty(Data);

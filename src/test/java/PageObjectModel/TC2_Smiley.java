@@ -9,9 +9,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import Functions.OneMapFunctions;
+import Object_Repository_Xpath.OneMap_FrontPage;
+import Utilities.DriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class TC2_Smiley {
@@ -23,22 +27,26 @@ public class TC2_Smiley {
 	@BeforeMethod
 	public void Launch() throws IOException {
 		
-		 //System.setProperty("webdriver.chrome.driver", "C:\\Users\\Praveen\\Documents\\Newfolder\\chromedriver.exe");
-			
-		WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
-			driver.get("https://www.onemap.gov.sg/main/v2/");
-			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
-			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-			driver.findElement(By.xpath("//span[contains(text(),'Got it, do not show again')]//following-sibling::img")).click();
+		driver=DriverManager.createWebDriver("chrome");
+		driver.get("https://www.onemap.gov.sg/main/v2/");
+		driver.manage().window().maximize();
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.findElement(By.xpath(OneMap_FrontPage.Frontpopup)).click();
 			
 			
 					
 	}
 	
-
+	@AfterMethod
+	public void TearDown() throws IOException {
+			
+		DriverManager.killWebDriver();
+				
+				
+						
+		}
 	
 	@Test
 	public void validateSimleytext() throws InterruptedException {
@@ -47,32 +55,17 @@ public class TC2_Smiley {
 
 WebElement root=driver.findElement(By.tagName("wog-sentiments"));
 
-WebElement shadowDOM=Utilities.getShadowDOM(root,driver);
+WebElement shadowDOM=OneMapFunctions.getShadowDOM(root,driver);
 WebElement div=shadowDOM.findElement(By.cssSelector("#wog--sentiments-content"));
 
 
 
 WebElement root1=div.findElement(By.cssSelector(".hydrated"));
-WebElement shadowDOM1=Utilities.getShadowDOM(root1,driver);
+WebElement shadowDOM1=OneMapFunctions.getShadowDOM(root1,driver);
 
 WebElement div1=shadowDOM.findElement(By.cssSelector("div"));
-Actions action=new Actions(driver);
 
-action.moveToElement(div1).build().perform();
-Thread.sleep(2000);
-String h3=div1.findElement(By.cssSelector("h3")).getText();
-System.out.println(h3);
 
-	/*
-		 * WebElement div1=shadowDOM.findElement(By.
-		 * cssSelector("div.wog--flex wog--items-center wog--justify-center wog--inline-flex wog--floating-button wog--float-bottom-left"
-		 * ));
-		 * 
-		 * 
-		 * Actions action=new Actions(driver);
-		 * 
-		 * action.moveToElement(div1).build().perform();
-		 */
 
 
 		

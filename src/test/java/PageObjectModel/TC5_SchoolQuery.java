@@ -7,42 +7,40 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import Object_Repository_Xpath.OneMap_FrontPage;
+import Utilities.DriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class TC5_SchoolQuery {
 WebDriver driver= null;
 	
-	@BeforeMethod
-	public void Launch() throws IOException {
+@BeforeMethod
+public void Launch() throws IOException {
+	
+	Utilities.InitialSetup.Setup();	
 		
-		 //System.setProperty("webdriver.chrome.driver", "C:\\Users\\Praveen\\Documents\\Newfolder\\chromedriver.exe");
-			
-		WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
-			driver.get("https://www.onemap.gov.sg/main/v2/");
-			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
-			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-			driver.findElement(By.xpath("//span[contains(text(),'Got it, do not show again')]//following-sibling::img")).click();
-			
-			
-					
-	}
+		
+				
+}
+
+@AfterMethod
+public void TearDown() throws IOException {
+	
+DriverManager.killWebDriver();
+		
+		
+				
+}
 	
 	
 	@Test
-	public void Squery() {
+	public void Squery() throws InterruptedException {
 		
-		WebElement schoolquery=driver.findElement(By.xpath("(//span[@class='topView_text' and contains(text(),'SchoolQuery')])[1]"));
-		schoolquery.click();	
-		WebElement Secinfo=driver.findElement(By.xpath("//button[contains(text(),'Find Secondary School Information')]"));
-		Secinfo.click();
-		WebElement agreebuttton=driver.findElement(By.xpath("//label[contains(text(),'I Agree')]"));
-		agreebuttton.click();
+		Functions.OneMapFunctions.Squery();
 	}
 	
 	
